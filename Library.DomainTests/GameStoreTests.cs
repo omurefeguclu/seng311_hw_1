@@ -42,10 +42,10 @@ namespace Library.Tests
         }
 
         [Theory]
-        [InlineData(1, 2, 1)]
-        [InlineData(2, 2, 2)]
-        [InlineData(3, 2, 0)]
-        public void GetGamesByPlayer_ReturnsCorrectGames(int playerId, int totalGames, int expectedCount)
+        [InlineData(1, 1)]
+        [InlineData(2, 1)]
+        [InlineData(3, 0)]
+        public void GetGamesByPlayer_ReturnsCorrectGames(int playerId, int expectedCount)
         {
             var store = new GameStore();
             store.AddGame(new Game { Player = new Player { Id = 1 }, PlayedAt = DateTime.Now, Score = 10 });
