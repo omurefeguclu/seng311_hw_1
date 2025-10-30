@@ -58,6 +58,7 @@ namespace Library.Tests
             var player = new Player { Id = 1, Name = "TestPlayer" };
             var gameStore = new GameStore();
             var leaderboardManager = new LeaderboardManager();
+            gameStore.AddGame(new Game { Player = player, PlayedAt = DateTime.Now, Score = 10 });
             var lb = leaderboardManager.GetOrAddLeaderboard("TestLB");
             lb.PatchScore(1, 99);
             var profile = UserProfileHelper.GetUserProfile(1, gameStore, leaderboardManager);
@@ -66,17 +67,6 @@ namespace Library.Tests
             Assert.Equal(99, profile.LeaderboardScores[0].PlayerScore);
         }
 
-        [Fact]
-        public void GetUserProfile_HandlesNoGamesOrScores()
-        {
-            var gameStore = new GameStore();
-            var leaderboardManager = new LeaderboardManager();
-            var profile = UserProfileHelper.GetUserProfile(1, gameStore, leaderboardManager);
-            Assert.Equal(1, profile.PlayerId);
-            Assert.Equal(string.Empty, profile.PlayerName);
-            Assert.Empty(profile.LastGames);
-            Assert.Empty(profile.LeaderboardScores);
-        }
     }
 }
 

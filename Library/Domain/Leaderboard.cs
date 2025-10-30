@@ -9,6 +9,15 @@ namespace Library.Domain
 
         public void PatchScore(int playerId, int newScore)
         {
+            if (playerId < 0)
+                throw new KeyNotFoundException("Player ID cannot be negative.");
+
+            if (newScore < 0)
+                throw new System.ArgumentException("Score cannot be negative.");
+
+            if (string.IsNullOrEmpty(Name))
+                throw new System.InvalidOperationException("Leaderboard name is not set yet.");
+            
             var score = Scores.Find(s => s.Player.Id == playerId);
             if (score != null)
             {
