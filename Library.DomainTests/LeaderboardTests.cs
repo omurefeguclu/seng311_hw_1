@@ -33,7 +33,7 @@ namespace Library.Tests
         [InlineData(2, 100)]
         public void GetPlayerScore_ReturnsPlayerScore(int playerId, int score)
         {
-            var leaderboard = new Leaderboard();
+            var leaderboard = new Leaderboard { Name = "TestBoard" };
             leaderboard.PatchScore(playerId, score);
             Assert.Equal(score, leaderboard.GetPlayerScore(playerId));
         }
@@ -43,7 +43,7 @@ namespace Library.Tests
         [InlineData(100)]
         public void GetPlayerScore_ReturnsZero_WhenPlayerDoesNotExist(int playerId)
         {
-            var leaderboard = new Leaderboard();
+            var leaderboard = new Leaderboard { Name = "TestBoard" };
             Assert.Equal(0, leaderboard.GetPlayerScore(playerId));
         }
 
@@ -52,7 +52,7 @@ namespace Library.Tests
         [InlineData(2, 30, 40)]
         public void PatchScore_UpdatesExistingPlayer(int playerId, int initialScore, int updatedScore)
         {
-            var leaderboard = new Leaderboard();
+            var leaderboard = new Leaderboard { Name = "TestBoard" };
             leaderboard.PatchScore(playerId, initialScore);
             leaderboard.PatchScore(playerId, updatedScore);
             Assert.Equal(updatedScore, leaderboard.GetPlayerScore(playerId));
@@ -63,7 +63,7 @@ namespace Library.Tests
         [InlineData(3, 40)]
         public void PatchScore_AddsNonExistingPlayer(int playerId, int score)
         {
-            var leaderboard = new Leaderboard();
+            var leaderboard = new Leaderboard { Name = "TestBoard" };
             leaderboard.PatchScore(playerId, score);
             Assert.Equal(score, leaderboard.GetPlayerScore(playerId));
         }
@@ -73,7 +73,7 @@ namespace Library.Tests
         [InlineData(2, 20, 10, 30)]
         public void IncreaseScore_UpdatesExistingRecord(int playerId, int initialScore, int increment, int expectedScore)
         {
-            var leaderboard = new Leaderboard();
+            var leaderboard = new Leaderboard { Name = "TestBoard" };
             leaderboard.PatchScore(playerId, initialScore);
             leaderboard.IncreaseScore(playerId, increment);
             Assert.Equal(expectedScore, leaderboard.GetPlayerScore(playerId));
@@ -84,7 +84,7 @@ namespace Library.Tests
         [InlineData(4, 12)]
         public void IncreaseScore_GenerateExistingRecord(int playerId, int increment)
         {
-            var leaderboard = new Leaderboard();
+            var leaderboard = new Leaderboard { Name = "TestBoard" };
             leaderboard.IncreaseScore(playerId, increment);
             Assert.Equal(increment, leaderboard.GetPlayerScore(playerId));
         }
@@ -94,7 +94,7 @@ namespace Library.Tests
         [InlineData(2, "AnotherName")]
         public void ChangePlayerName_ChangesExistingName(int playerId, string newName)
         {
-            var leaderboard = new Leaderboard();
+            var leaderboard = new Leaderboard { Name = "TestBoard" };
             leaderboard.PatchScore(playerId, 10);
             leaderboard.ChangePlayerName(playerId, newName);
             var score = leaderboard.Scores.Find(s => s.Player.Id == playerId);
@@ -104,14 +104,14 @@ namespace Library.Tests
         [Fact]
         public void ChangePlayerName_ThrowsIfPlayerNotFound()
         {
-            var leaderboard = new Leaderboard();
+            var leaderboard = new Leaderboard { Name = "TestBoard" };
             Assert.Throws<KeyNotFoundException>(() => leaderboard.ChangePlayerName(99, "Name"));
         }
 
         [Fact]
         public void Clear_RemovesAllScores()
         {
-            var leaderboard = new Leaderboard();
+            var leaderboard = new Leaderboard { Name = "TestBoard" };
             leaderboard.PatchScore(1, 10);
             leaderboard.PatchScore(2, 20);
             leaderboard.Clear();
